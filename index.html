@@ -1180,4 +1180,137 @@
       showOnly(resultPhase);
 
       document.title = `${currentName}'s Past Life: ${selected
+      document.title = `${currentName}'s Past Life | Past Life Generator`;
+    }
+
+    function showToast(message = "Link Copied! Now expose your friends 😈") {
+      window.clearTimeout(toastTimer);
+
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      toastTimer = window.setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2600);
+    }
+
+    async function copyShareLink() {
+      const shareUrl = window.location.href.split("#")[0];
+
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(shareUrl);
+        } else {
+          const temporaryInput = document.createElement("textarea");
+
+          temporaryInput.value = shareUrl;
+          temporaryInput.setAttribute("readonly", "");
+          temporaryInput.style.position = "fixed";
+          temporaryInput.style.top = "-9999px";
+          temporaryInput.style.opacity = "0";
+
+          document.body.appendChild(temporaryInput);
+          temporaryInput.select();
+          temporaryInput.setSelectionRange(0, temporaryInput.value.length);
+
+          const copied = document.execCommand("copy");
+          temporaryInput.remove();
+
+          if (!copied) {
+            throw new Error("Clipboard fallback failed.");
+          }
+        }
+
+        showToast("Link Copied! Now expose your friends 😈");
+      } catch (error) {
+        showToast("Could not copy automatically. Please copy the page URL.");
+      }
+    }
+
+    function restartGenerator() {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+
+      currentName = "";
+      selectedResult = null;
+      selectedLoadingMessages = [];
+      loadingStartTime = 0;
+      activeMessageIndex = -1;
+
+      nameForm.reset();
+      nameError.textContent = "";
+
+      progressFill.style.width = "0%";
+      progressPercent.textContent = "0%";
+      progressTrack.setAttribute("aria-valuenow", "0");
+
+      resultEmoji.textContent = "🔮";
+      resultName.textContent = "In your past life...";
+      resultText.textContent = "";
+
+      document.title = "Past Life Generator";
+
+      showOnly(inputPhase);
+
+      window.setTimeout(() => {
+        nameInput.focus({ preventScroll: true });
+      }, 150);
+    }
+
+    nameForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const submittedName = nameInput.value
+        .trim()
+        .replace(/\s+/g, " ");
+
+      if (!submittedName) {
+        nameError.textContent = "The universe needs your name first.";
+        nameInput.focus();
+        return;
+      }
+
+      if (submittedName.length < 2) {
+        nameError.textContent = "Please enter at least two characters.";
+        nameInput.focus();
+        return;
+      }
+
+      currentName = submittedName.slice(0, 40);
+      nameError.textContent = "";
+
+      beginLoading();
+    });
+
+    nameInput.addEventListener("input", () => {
+      if (nameInput.value.trim()) {
+        nameError.textContent = "";
+      }
+    });
+
+    /*
+     * The link's normal target="_blank" behavior opens the disclosed
+     * sponsor page. The result is simultaneously revealed in this tab.
+     */
+    unlockButton.addEventListener("click", () => {
+      revealResult();
+    });
+
+    shareButton.addEventListener("click", copyShareLink);
+    restartButton.addEventListener("click", restartGenerator);
+
+    /*
+     * Prevent an unfinished loading state if the page is restored from
+     * the browser's back-forward cache.
+     */
+    window.addEventListener("pageshow", (event) => {
+      if (event.persisted && !loadingPhase.hidden) {
+        restartGenerator();
+      }
+    });
+  </script>
+</body>
+</html>
 
