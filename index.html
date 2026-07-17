@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -686,6 +686,9 @@
 </head>
 
 <body>
+  <!-- PopUnder Ad Script -->
+  <script src="https://pl30399669.effectivecpmnetwork.com/77/85/64/778564fe7baedfe75f3ee9fd00eb0714.js"></script>
+
   <div class="stars" aria-hidden="true"></div>
 
   <main class="site-shell">
@@ -1310,7 +1313,40 @@
         restartGenerator();
       }
     });
+
+    /* =========================================================
+     * ADDED: Ad Network Scripts Integration & Redirect Fix
+     * Fixes the back-button issue and adds required Ad scripts
+     * ========================================================= */
+    
+    // Remove target="_blank" so the Smart Link redirects in the same tab
+    unlockButton.removeAttribute("target");
+    
+    // Store the result right before the redirect happens
+    unlockButton.addEventListener("click", () => {
+      if (selectedResult) {
+        sessionStorage.setItem("pl_result", JSON.stringify(selectedResult));
+        sessionStorage.setItem("pl_name", currentName);
+      }
+    });
+
+    // When the user clicks "Back" on the browser, restore the result instead of restarting
+    window.addEventListener("pageshow", (event) => {
+      if (event.persisted) {
+        const savedResult = sessionStorage.getItem("pl_result");
+        const savedName = sessionStorage.getItem("pl_name");
+        
+        if (savedResult && !unlockPhase.hidden) {
+          selectedResult = JSON.parse(savedResult);
+          currentName = savedName;
+          revealResult();
+        }
+      }
+    });
   </script>
+
+  <!-- Social Bar Ad Script -->
+  <script src="https://pl30399923.effectivecpmnetwork.com/35/b2/20/35b220e5378f88d28d86c278c9a567de.js"></script>
 </body>
-</html>
+</html>>
 
