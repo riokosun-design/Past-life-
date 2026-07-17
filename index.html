@@ -1,31 +1,37 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#090513">
 
-  <title>Past Life Generator</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
   <meta
     name="description"
-    content="Discover your hilarious past life with the mystical Past Life Generator."
+    content="Discover your hilariously questionable past life with the Cosmic Past Life Generator."
   >
+
+  <meta name="theme-color" content="#080510">
+
+  <title>Past Life Generator</title>
 
   <style>
     :root {
-      --background: #08050f;
-      --panel: rgba(20, 12, 35, 0.88);
-      --panel-light: rgba(35, 20, 57, 0.88);
-      --purple: #b64cff;
-      --purple-light: #dc8cff;
-      --green: #63ff9c;
-      --green-dark: #1fe06b;
+      --background: #080510;
+      --card: rgba(20, 12, 38, 0.82);
+      --card-strong: rgba(29, 16, 51, 0.94);
+      --purple: #b45cff;
+      --purple-dark: #7c2cff;
+      --green: #8dff72;
       --pink: #ff4fd8;
-      --yellow: #ffe66d;
-      --white: #f8f5ff;
-      --muted: #b9accb;
-      --border: rgba(193, 113, 255, 0.25);
-      --shadow: 0 0 35px rgba(182, 76, 255, 0.22);
+      --cyan: #62efff;
+      --text: #f7f3ff;
+      --muted: #b8adc8;
+      --danger: #ff719a;
+      --border: rgba(180, 92, 255, 0.3);
+      --shadow: 0 20px 70px rgba(0, 0, 0, 0.46);
     }
 
     * {
@@ -34,49 +40,67 @@
 
     html {
       min-height: 100%;
-      background: var(--background);
+      scroll-behavior: smooth;
     }
 
     body {
       min-height: 100vh;
       margin: 0;
       overflow-x: hidden;
-      color: var(--white);
+      color: var(--text);
       font-family:
         Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
         "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at 20% 10%, rgba(157, 53, 255, 0.2), transparent 30%),
-        radial-gradient(circle at 85% 35%, rgba(56, 255, 147, 0.11), transparent 28%),
-        radial-gradient(circle at 50% 100%, rgba(255, 57, 206, 0.12), transparent 35%),
-        #08050f;
+        radial-gradient(circle at 15% 10%, rgba(180, 92, 255, 0.19), transparent 31rem),
+        radial-gradient(circle at 90% 25%, rgba(98, 239, 255, 0.1), transparent 27rem),
+        radial-gradient(circle at 40% 100%, rgba(141, 255, 114, 0.08), transparent 30rem),
+        var(--background);
     }
 
     body::before,
     body::after {
-      content: "";
       position: fixed;
-      z-index: -1;
-      width: 360px;
-      height: 360px;
+      z-index: -2;
+      width: 26rem;
+      height: 26rem;
       border-radius: 50%;
-      filter: blur(90px);
-      opacity: 0.16;
+      filter: blur(100px);
+      content: "";
+      opacity: 0.24;
       pointer-events: none;
+      animation: drift 10s ease-in-out infinite alternate;
     }
 
     body::before {
-      top: -100px;
-      left: -120px;
+      top: -10rem;
+      left: -9rem;
       background: var(--purple);
-      animation: floatOrb 9s ease-in-out infinite;
     }
 
     body::after {
-      right: -140px;
-      bottom: -120px;
+      right: -10rem;
+      bottom: -12rem;
       background: var(--green);
-      animation: floatOrb 11s ease-in-out infinite reverse;
+      animation-delay: -4s;
+    }
+
+    button,
+    input,
+    a {
+      font: inherit;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    a:focus-visible {
+      outline: 3px solid var(--cyan);
+      outline-offset: 4px;
     }
 
     .stars,
@@ -84,121 +108,130 @@
     .stars::after {
       position: fixed;
       inset: 0;
-      z-index: -2;
+      z-index: -1;
+      content: "";
       pointer-events: none;
       background-image:
-        radial-gradient(circle, rgba(255, 255, 255, 0.75) 1px, transparent 1px),
-        radial-gradient(circle, rgba(132, 255, 186, 0.65) 1px, transparent 1px);
-      background-position: 0 0, 35px 55px;
-      background-size: 85px 85px, 125px 125px;
-      content: "";
-      opacity: 0.18;
+        radial-gradient(circle, rgba(255, 255, 255, 0.82) 1px, transparent 1.5px),
+        radial-gradient(circle, rgba(180, 92, 255, 0.68) 1px, transparent 1.5px);
+      background-position: 0 0, 22px 30px;
+      background-size: 75px 75px, 110px 110px;
+      opacity: 0.22;
+      animation: starsMove 24s linear infinite;
     }
 
     .stars::before {
-      transform: scale(1.15);
-      opacity: 0.12;
-      animation: driftStars 45s linear infinite;
+      opacity: 0.18;
+      transform: scale(1.2);
+      animation-duration: 35s;
     }
 
     .stars::after {
-      transform: scale(0.85);
-      opacity: 0.1;
-      animation: driftStars 65s linear infinite reverse;
+      opacity: 0.12;
+      transform: scale(1.5);
+      animation-direction: reverse;
+      animation-duration: 44s;
     }
 
-    .page-shell {
-      width: min(100%, 620px);
-      min-height: 100vh;
-      margin: 0 auto;
-      padding: 16px;
+    .site-shell {
+      width: min(100% - 24px, 560px);
+      margin-inline: auto;
+      padding:
+        max(16px, env(safe-area-inset-top))
+        0
+        max(24px, env(safe-area-inset-bottom));
+    }
+
+    .brand {
       display: flex;
-      flex-direction: column;
+      align-items: center;
       justify-content: center;
-      gap: 16px;
+      gap: 9px;
+      margin: 8px 0 16px;
+      color: var(--green);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.17em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .brand-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 16px var(--green);
+      animation: pulseDot 1.8s ease-in-out infinite;
     }
 
     .ad-placeholder {
-      width: 100%;
-      min-height: 82px;
-      padding: 14px;
       display: grid;
+      min-height: 84px;
+      margin: 14px 0;
+      padding: 12px;
       place-items: center;
-      border: 1px dashed rgba(255, 255, 255, 0.3);
-      border-radius: 16px;
-      color: #a99db7;
-      background: rgba(255, 255, 255, 0.035);
-      font-size: 0.75rem;
+      overflow: hidden;
+      border: 1px dashed rgba(184, 173, 200, 0.4);
+      border-radius: 18px;
+      color: #9d91ad;
+      background: rgba(255, 255, 255, 0.025);
+      font-size: 0.72rem;
       font-weight: 800;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.12em;
       text-align: center;
       text-transform: uppercase;
     }
 
-    .app-card {
+    .card {
       position: relative;
-      width: 100%;
-      padding: clamp(22px, 6vw, 38px);
       overflow: hidden;
+      padding: clamp(22px, 6vw, 36px);
       border: 1px solid var(--border);
       border-radius: 28px;
       background:
-        linear-gradient(145deg, rgba(35, 18, 58, 0.94), rgba(12, 8, 24, 0.96));
+        linear-gradient(145deg, rgba(255, 255, 255, 0.055), transparent 42%),
+        var(--card);
       box-shadow:
         var(--shadow),
         inset 0 1px 0 rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(16px);
+      text-align: center;
+      isolation: isolate;
+      backdrop-filter: blur(18px);
     }
 
-    .app-card::before {
-      content: "";
+    .card::before {
       position: absolute;
+      z-index: -1;
       top: -80px;
       left: 50%;
-      width: 300px;
-      height: 180px;
-      transform: translateX(-50%);
+      width: 260px;
+      height: 160px;
       border-radius: 50%;
-      background: rgba(183, 76, 255, 0.18);
-      filter: blur(50px);
-      pointer-events: none;
-    }
-
-    .phase {
-      position: relative;
-      z-index: 1;
-      animation: phaseEnter 0.55s ease both;
+      background: rgba(180, 92, 255, 0.25);
+      filter: blur(55px);
+      content: "";
+      transform: translateX(-50%);
     }
 
     .phase[hidden] {
-      display: none;
+      display: none !important;
     }
 
     .eyebrow {
-      margin: 0 0 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 13px;
+      padding: 7px 12px;
+      border: 1px solid rgba(141, 255, 114, 0.24);
+      border-radius: 999px;
       color: var(--green);
-      font-size: 0.75rem;
+      background: rgba(141, 255, 114, 0.07);
+      font-size: 0.74rem;
       font-weight: 900;
-      letter-spacing: 0.18em;
-      text-align: center;
+      letter-spacing: 0.09em;
       text-transform: uppercase;
-    }
-
-    .crystal-ball {
-      width: 78px;
-      height: 78px;
-      margin: 0 auto 18px;
-      display: grid;
-      place-items: center;
-      border: 2px solid rgba(220, 140, 255, 0.72);
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 35% 25%, #ffffff, #cf7cff 10%, #7625c7 40%, #170727 72%);
-      box-shadow:
-        0 0 18px rgba(194, 94, 255, 0.9),
-        0 0 45px rgba(123, 42, 202, 0.55);
-      font-size: 2.25rem;
-      animation: orbPulse 2.4s ease-in-out infinite;
     }
 
     h1,
@@ -208,54 +241,61 @@
     }
 
     h1 {
+      max-width: 470px;
+      margin-right: auto;
       margin-bottom: 12px;
-      font-size: clamp(2rem, 8vw, 3.35rem);
+      margin-left: auto;
+      font-size: clamp(2rem, 9vw, 3.35rem);
       line-height: 1.02;
-      text-align: center;
       letter-spacing: -0.055em;
-    }
-
-    h1 span {
-      color: var(--purple-light);
-      text-shadow: 0 0 22px rgba(182, 76, 255, 0.55);
     }
 
     h2 {
       margin-bottom: 12px;
-      font-size: clamp(1.65rem, 6vw, 2.35rem);
-      line-height: 1.12;
-      text-align: center;
+      font-size: clamp(1.55rem, 7vw, 2.2rem);
       letter-spacing: -0.035em;
     }
 
-    .subtitle {
-      max-width: 440px;
-      margin: 0 auto 24px;
-      color: var(--muted);
-      line-height: 1.65;
-      text-align: center;
+    .gradient-text {
+      color: transparent;
+      background: linear-gradient(90deg, var(--purple), var(--pink), var(--green));
+      background-clip: text;
+      -webkit-background-clip: text;
     }
 
-    .input-label {
+    .subtitle {
+      margin-bottom: 25px;
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.65;
+    }
+
+    .input-group {
+      text-align: left;
+    }
+
+    .input-group label {
       display: block;
-      margin-bottom: 9px;
-      color: #ddd3ea;
-      font-size: 0.88rem;
+      margin: 0 0 9px 5px;
+      color: #ded4e9;
+      font-size: 0.83rem;
       font-weight: 800;
     }
 
     .name-input {
       width: 100%;
-      min-height: 56px;
+      height: 56px;
       padding: 0 17px;
-      border: 1px solid rgba(194, 120, 255, 0.4);
-      border-radius: 15px;
+      border: 1px solid rgba(180, 92, 255, 0.36);
+      border-radius: 16px;
       outline: none;
-      color: var(--white);
-      background: rgba(5, 3, 12, 0.68);
-      font: inherit;
-      font-size: 1rem;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      color: var(--text);
+      background: rgba(4, 3, 10, 0.55);
+      caret-color: var(--green);
+      transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms ease;
     }
 
     .name-input::placeholder {
@@ -264,399 +304,372 @@
 
     .name-input:focus {
       border-color: var(--green);
-      box-shadow:
-        0 0 0 4px rgba(99, 255, 156, 0.11),
-        0 0 20px rgba(99, 255, 156, 0.11);
+      box-shadow: 0 0 0 4px rgba(141, 255, 114, 0.11);
+      transform: translateY(-1px);
     }
 
-    .button {
+    .error-message {
+      min-height: 21px;
+      margin: 7px 4px 0;
+      color: var(--danger);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .primary-button,
+    .secondary-button,
+    .unlock-button {
+      display: inline-flex;
       width: 100%;
       min-height: 56px;
-      margin-top: 15px;
-      padding: 14px 20px;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
       border: 0;
       border-radius: 16px;
       cursor: pointer;
-      color: #07140c;
-      background: linear-gradient(135deg, var(--green), #bbff71);
-      box-shadow:
-        0 8px 28px rgba(64, 255, 138, 0.26),
-        inset 0 1px 0 rgba(255, 255, 255, 0.65);
-      font: inherit;
-      font-size: 1rem;
       font-weight: 950;
-      letter-spacing: 0.01em;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+      text-align: center;
+      text-decoration: none;
+      transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        filter 180ms ease;
     }
 
-    .button:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.06);
+    .primary-button,
+    .unlock-button {
+      color: #0c0610;
+      background: linear-gradient(100deg, var(--green), #b8ff70, var(--cyan));
       box-shadow:
-        0 12px 36px rgba(64, 255, 138, 0.36),
-        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        0 10px 28px rgba(141, 255, 114, 0.22),
+        0 0 25px rgba(141, 255, 114, 0.14);
     }
 
-    .button:active {
+    .primary-button:hover,
+    .unlock-button:hover {
+      filter: brightness(1.08);
+      transform: translateY(-2px);
+      box-shadow:
+        0 15px 35px rgba(141, 255, 114, 0.29),
+        0 0 32px rgba(141, 255, 114, 0.19);
+    }
+
+    .primary-button:active,
+    .unlock-button:active,
+    .secondary-button:active {
       transform: translateY(1px) scale(0.99);
     }
 
-    .button:focus-visible,
-    .name-input:focus-visible {
-      outline: 3px solid rgba(255, 255, 255, 0.8);
-      outline-offset: 3px;
+    .secondary-button {
+      border: 1px solid rgba(180, 92, 255, 0.38);
+      color: var(--text);
+      background: rgba(180, 92, 255, 0.09);
     }
 
-    .button.secondary {
-      color: var(--white);
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: none;
+    .secondary-button:hover {
+      border-color: var(--purple);
+      background: rgba(180, 92, 255, 0.15);
+      transform: translateY(-2px);
     }
 
-    .button.secondary:hover {
-      background: rgba(255, 255, 255, 0.11);
-      box-shadow: none;
-    }
-
-    .loading-symbol {
-      width: 66px;
-      height: 66px;
-      margin: 0 auto 18px;
+    .crystal-ball {
+      position: relative;
       display: grid;
+      width: 105px;
+      height: 105px;
+      margin: 0 auto 22px;
       place-items: center;
-      border: 2px solid rgba(99, 255, 156, 0.18);
-      border-top-color: var(--green);
-      border-right-color: var(--purple);
+      border: 2px solid rgba(255, 255, 255, 0.22);
       border-radius: 50%;
-      font-size: 1.55rem;
-      animation: spin 1.35s linear infinite;
+      background:
+        radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.9), transparent 8%),
+        radial-gradient(circle, rgba(98, 239, 255, 0.34), transparent 36%),
+        linear-gradient(140deg, #ca63ff, #48247a 58%, #15102a);
+      box-shadow:
+        inset -15px -18px 25px rgba(0, 0, 0, 0.28),
+        0 0 35px rgba(180, 92, 255, 0.55);
+      font-size: 2.7rem;
+      animation: float 2.8s ease-in-out infinite;
     }
 
-    .loading-symbol span {
-      animation: reverseSpin 1.35s linear infinite;
+    .crystal-ball::after {
+      position: absolute;
+      right: 19px;
+      bottom: -13px;
+      left: 19px;
+      height: 17px;
+      border-radius: 50%;
+      background: #4b2864;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.42);
+      content: "";
     }
 
-    .progress-meta {
-      margin: 22px 0 8px;
+    .progress-header {
       display: flex;
       justify-content: space-between;
-      gap: 12px;
-      color: var(--muted);
-      font-size: 0.83rem;
-      font-weight: 800;
+      gap: 15px;
+      margin-bottom: 10px;
+      color: #d8cce4;
+      font-size: 0.79rem;
+      font-weight: 850;
     }
 
     .progress-track {
-      width: 100%;
+      position: relative;
       height: 15px;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.09);
+      border: 1px solid rgba(180, 92, 255, 0.23);
       border-radius: 999px;
-      background: rgba(0, 0, 0, 0.42);
+      background: rgba(0, 0, 0, 0.4);
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.42);
     }
 
-    .progress-bar {
-      width: 0%;
-      height: 100%;
-      border-radius: inherit;
-      background:
-        linear-gradient(90deg, var(--purple), var(--pink), var(--green));
-      box-shadow: 0 0 18px rgba(99, 255, 156, 0.6);
-      transition: width 0.08s linear;
-    }
-
-    .status-text {
-      min-height: 26px;
-      margin: 14px 0 18px;
-      color: var(--green);
-      font-size: 0.94rem;
-      font-weight: 800;
-      text-align: center;
-    }
-
-    .status-text::after {
-      content: "";
-      display: inline-block;
-      width: 1.2em;
-      text-align: left;
-      animation: dots 1.2s steps(4, end) infinite;
-    }
-
-    .unskippable-ad {
+    .progress-fill {
       position: relative;
-      min-height: 190px;
-      margin: 20px 0;
-      padding: 20px;
-      display: grid;
-      place-items: center;
+      width: 0;
+      height: 100%;
       overflow: hidden;
-      border: 2px dashed rgba(255, 230, 109, 0.62);
-      border-radius: 20px;
-      color: #fff3ad;
-      background:
-        repeating-linear-gradient(
-          -45deg,
-          rgba(255, 230, 109, 0.045) 0,
-          rgba(255, 230, 109, 0.045) 10px,
-          transparent 10px,
-          transparent 20px
-        ),
-        rgba(7, 5, 12, 0.72);
-      text-align: center;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--purple), var(--pink), var(--green));
+      box-shadow: 0 0 18px rgba(180, 92, 255, 0.7);
+      will-change: width;
     }
 
-    .unskippable-ad::after {
-      content: "COSMIC AD ZONE";
+    .progress-fill::after {
       position: absolute;
-      top: 10px;
-      right: 10px;
-      padding: 5px 8px;
-      border-radius: 7px;
-      color: #151009;
-      background: var(--yellow);
-      font-size: 0.62rem;
-      font-weight: 950;
-      letter-spacing: 0.1em;
+      inset: 0;
+      background-image: linear-gradient(
+        110deg,
+        transparent 20%,
+        rgba(255, 255, 255, 0.55) 50%,
+        transparent 80%
+      );
+      content: "";
+      transform: translateX(-100%);
+      animation: shimmer 1.3s linear infinite;
     }
 
-    .ad-inner small {
-      display: block;
-      margin-bottom: 9px;
-      color: #a99db7;
+    .loading-message {
+      display: grid;
+      min-height: 74px;
+      margin: 17px 0 0;
+      place-items: center;
+      color: var(--green);
+      font-size: 0.95rem;
       font-weight: 800;
-      letter-spacing: 0.12em;
+      line-height: 1.5;
+      text-shadow: 0 0 15px rgba(141, 255, 114, 0.28);
+    }
+
+    .loading-message.change {
+      animation: messageChange 420ms ease;
+    }
+
+    .loading-ad {
+      min-height: 230px;
+      margin-top: 19px;
+      padding: 12px;
+      overflow: hidden;
+      border: 2px dashed rgba(255, 79, 216, 0.42);
+      border-radius: 20px;
+      background:
+        linear-gradient(rgba(255, 79, 216, 0.04), rgba(180, 92, 255, 0.05)),
+        rgba(7, 4, 13, 0.45);
+    }
+
+    .loading-ad-label {
+      margin-bottom: 10px;
+      color: var(--pink);
+      font-size: 0.71rem;
+      font-weight: 900;
+      letter-spacing: 0.13em;
+      text-align: center;
       text-transform: uppercase;
     }
 
-    .ad-inner strong {
-      display: block;
-      font-size: clamp(1.15rem, 5vw, 1.6rem);
-    }
-
-    .ad-inner p {
-      margin: 8px 0 0;
-      color: #9c90aa;
-      font-size: 0.82rem;
-    }
-
-    .unlock-area {
-      margin-top: 20px;
-      text-align: center;
-      animation: phaseEnter 0.45s ease both;
-    }
-
-    .unlock-area[hidden] {
-      display: none;
-    }
-
-    .unlock-message {
-      margin-bottom: 4px;
-      color: var(--green);
-      font-weight: 900;
+    .unlock-icon {
+      margin-bottom: 9px;
+      font-size: 3.8rem;
+      filter: drop-shadow(0 0 17px rgba(141, 255, 114, 0.48));
+      animation: float 2.2s ease-in-out infinite;
     }
 
     .unlock-button {
-      animation: unlockPulse 1.25s ease-in-out infinite;
+      animation: unlockPulse 1.45s ease-in-out infinite;
     }
 
-    .result-card {
-      position: relative;
-      margin: 22px 0;
-      padding: clamp(22px, 6vw, 32px);
-      overflow: hidden;
-      border: 1px solid rgba(99, 255, 156, 0.3);
-      border-radius: 22px;
-      background:
-        radial-gradient(circle at top right, rgba(99, 255, 156, 0.12), transparent 38%),
-        rgba(4, 2, 10, 0.58);
-      box-shadow: inset 0 0 30px rgba(182, 76, 255, 0.08);
+    .sponsor-disclosure {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 0.74rem;
+      line-height: 1.5;
     }
 
-    .result-card::before {
-      content: "✦";
-      position: absolute;
-      top: 10px;
-      right: 16px;
-      color: var(--green);
-      font-size: 1.6rem;
-      animation: twinkle 1.8s ease-in-out infinite;
+    .result-emoji {
+      margin-bottom: 8px;
+      font-size: clamp(4.5rem, 22vw, 7rem);
+      line-height: 1;
+      filter: drop-shadow(0 0 25px rgba(180, 92, 255, 0.55));
+      animation: revealEmoji 680ms cubic-bezier(0.18, 0.89, 0.32, 1.3);
     }
 
     .result-name {
-      margin: 0 0 14px;
-      color: var(--purple-light);
-      font-size: clamp(1.15rem, 5vw, 1.5rem);
+      margin-bottom: 16px;
+      color: var(--green);
+      font-size: clamp(1.35rem, 6vw, 1.85rem);
       font-weight: 950;
-      text-align: center;
+      overflow-wrap: anywhere;
     }
 
-    .result-scenario {
+    .result-box {
+      position: relative;
+      margin-bottom: 23px;
+      padding: 21px 18px;
+      border: 1px solid rgba(180, 92, 255, 0.4);
+      border-radius: 19px;
+      background:
+        linear-gradient(145deg, rgba(180, 92, 255, 0.13), rgba(141, 255, 114, 0.04)),
+        rgba(3, 2, 8, 0.43);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    .result-text {
       margin: 0;
-      color: #fff;
-      font-size: clamp(1.25rem, 5.5vw, 1.75rem);
-      font-weight: 850;
-      line-height: 1.38;
-      text-align: center;
-      text-wrap: balance;
+      color: #f6efff;
+      font-size: clamp(1rem, 4.5vw, 1.16rem);
+      font-weight: 750;
+      line-height: 1.65;
     }
 
-    .cosmic-rating {
-      margin: 18px 0 0;
-      color: var(--yellow);
-      font-size: 0.8rem;
-      font-weight: 900;
-      letter-spacing: 0.09em;
-      text-align: center;
-      text-transform: uppercase;
-    }
-
-    .button-group {
+    .result-actions {
       display: grid;
-      gap: 0;
+      gap: 11px;
     }
 
-    .fine-print {
-      margin: 16px 0 0;
-      color: #786d87;
-      font-size: 0.72rem;
-      line-height: 1.5;
-      text-align: center;
+    .tiny-note {
+      margin: 17px 0 0;
+      color: #83788f;
+      font-size: 0.7rem;
+      line-height: 1.45;
     }
 
     .toast {
       position: fixed;
-      z-index: 20;
-      left: 50%;
-      bottom: 24px;
-      max-width: calc(100vw - 32px);
-      padding: 13px 20px;
-      transform: translate(-50%, 100px);
-      border: 1px solid rgba(99, 255, 156, 0.4);
-      border-radius: 999px;
-      color: #06150b;
+      z-index: 50;
+      right: 18px;
+      bottom: max(18px, env(safe-area-inset-bottom));
+      left: 18px;
+      max-width: 370px;
+      margin: auto;
+      padding: 14px 18px;
+      border: 1px solid rgba(141, 255, 114, 0.34);
+      border-radius: 14px;
+      color: #0d160b;
       background: var(--green);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
-      font-size: 0.9rem;
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.45);
+      font-size: 0.89rem;
       font-weight: 950;
       text-align: center;
       opacity: 0;
       pointer-events: none;
-      transition: transform 0.35s ease, opacity 0.35s ease;
+      transform: translateY(22px);
+      transition:
+        opacity 230ms ease,
+        transform 230ms ease;
     }
 
     .toast.show {
-      transform: translate(-50%, 0);
       opacity: 1;
+      transform: translateY(0);
     }
 
-    @keyframes phaseEnter {
-      from {
-        transform: translateY(12px);
-        opacity: 0;
-      }
+    .footer {
+      padding: 8px 10px 0;
+      color: #786d86;
+      font-size: 0.69rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    @keyframes drift {
       to {
-        transform: translateY(0);
-        opacity: 1;
+        transform: translate3d(30px, 35px, 0) scale(1.08);
       }
     }
 
-    @keyframes orbPulse {
-      0%,
-      100% {
-        transform: translateY(0) scale(1);
+    @keyframes starsMove {
+      to {
+        transform: translateY(75px);
       }
+    }
+
+    @keyframes pulseDot {
       50% {
-        transform: translateY(-5px) scale(1.045);
+        opacity: 0.45;
+        transform: scale(0.72);
       }
     }
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
+    @keyframes float {
+      50% {
+        transform: translateY(-8px) rotate(2deg);
       }
     }
 
-    @keyframes reverseSpin {
+    @keyframes shimmer {
       to {
-        transform: rotate(-360deg);
+        transform: translateX(100%);
+      }
+    }
+
+    @keyframes messageChange {
+      from {
+        opacity: 0;
+        transform: translateY(7px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
 
     @keyframes unlockPulse {
-      0%,
-      100% {
-        transform: scale(1);
-        box-shadow: 0 8px 28px rgba(64, 255, 138, 0.3);
-      }
       50% {
-        transform: scale(1.025);
         box-shadow:
-          0 8px 38px rgba(64, 255, 138, 0.65),
-          0 0 0 8px rgba(99, 255, 156, 0.07);
+          0 12px 42px rgba(141, 255, 114, 0.45),
+          0 0 45px rgba(141, 255, 114, 0.3);
+        transform: scale(1.025);
       }
     }
 
-    @keyframes twinkle {
-      0%,
-      100% {
-        transform: scale(0.8) rotate(0deg);
-        opacity: 0.45;
+    @keyframes revealEmoji {
+      from {
+        opacity: 0;
+        transform: scale(0.2) rotate(-18deg);
       }
-      50% {
-        transform: scale(1.2) rotate(45deg);
-        opacity: 1;
-      }
-    }
 
-    @keyframes dots {
-      0% {
-        content: "";
-      }
-      25% {
-        content: ".";
-      }
-      50% {
-        content: "..";
-      }
-      75%,
-      100% {
-        content: "...";
-      }
-    }
-
-    @keyframes floatOrb {
-      0%,
-      100% {
-        transform: translate(0, 0);
-      }
-      50% {
-        transform: translate(35px, 25px);
-      }
-    }
-
-    @keyframes driftStars {
       to {
-        transform: translateY(100px) scale(1.15);
+        opacity: 1;
+        transform: scale(1) rotate(0);
       }
     }
 
-    @media (max-width: 480px) {
-      .page-shell {
-        padding: 10px;
-        gap: 10px;
+    @media (min-width: 480px) {
+      .result-actions {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .site-shell {
+        width: min(100% - 16px, 560px);
       }
 
-      .app-card {
+      .card {
+        padding: 21px 15px;
         border-radius: 22px;
-      }
-
-      .ad-placeholder {
-        min-height: 68px;
-      }
-
-      .unskippable-ad {
-        min-height: 170px;
       }
     }
 
@@ -675,63 +688,75 @@
 <body>
   <div class="stars" aria-hidden="true"></div>
 
-  <main class="page-shell">
+  <main class="site-shell">
+    <div class="brand">
+      <span class="brand-dot" aria-hidden="true"></span>
+      Cosmic Nonsense Laboratories
+    </div>
+
     <!-- Top Ad Placeholder -->
-    <div class="ad-placeholder" aria-label="Top advertisement placeholder">
+    <div class="ad-placeholder" aria-label="Top advertisement">
       Ad Banner
     </div>
 
-    <section class="app-card">
+    <section class="card" aria-live="polite">
       <!-- Phase 1: Input -->
       <div class="phase" id="inputPhase">
-        <div class="crystal-ball" aria-hidden="true">🔮</div>
-        <p class="eyebrow">100% Questionable Cosmic Science</p>
+        <div class="eyebrow">🔮 99.9% Questionable Accuracy</div>
 
         <h1>
           Who Were You in Your
-          <span>Past Life?</span>
+          <span class="gradient-text">Past Life?</span>
         </h1>
 
         <p class="subtitle">
-          Enter your name and let our suspiciously advanced mystical AI inspect
-          your ancient cosmic history.
+          Enter your name and let our extremely suspicious cosmic technology
+          expose your previous existence.
         </p>
 
-        <form id="nameForm">
-          <label class="input-label" for="nameInput">Your mortal name</label>
-          <input
-            class="name-input"
-            id="nameInput"
-            name="name"
-            type="text"
-            maxlength="40"
-            placeholder="e.g. Rahul"
-            autocomplete="name"
-            required
-          >
+        <form id="nameForm" novalidate>
+          <div class="input-group">
+            <label for="nameInput">Your name</label>
 
-          <button class="button" type="submit">
-            ✨ Reveal My Past
+            <input
+              class="name-input"
+              id="nameInput"
+              name="name"
+              type="text"
+              maxlength="40"
+              autocomplete="name"
+              placeholder="e.g. Rahul"
+              required
+            >
+
+            <div
+              class="error-message"
+              id="nameError"
+              role="alert"
+              aria-live="assertive"
+            ></div>
+          </div>
+
+          <button class="primary-button" type="submit">
+            <span>Reveal My Past</span>
+            <span aria-hidden="true">✨</span>
           </button>
         </form>
 
-        <p class="fine-print">
-          Warning: Results may reveal royal camels, historical mosquitoes, or
-          deeply embarrassing medieval behavior.
+        <p class="tiny-note">
+          For entertainment only. Our time machine is currently held together
+          with cosmic tape.
         </p>
       </div>
 
-      <!-- Phase 2 and Phase 3: Processing and Unlock -->
+      <!-- Phase 2: Exactly 12-second fake processing -->
       <div class="phase" id="loadingPhase" hidden>
-        <div class="loading-symbol" aria-hidden="true">
-          <span>👁️</span>
-        </div>
+        <div class="crystal-ball" aria-hidden="true">👁️</div>
 
-        <p class="eyebrow">Mystical AI Analysis</p>
-        <h2>Searching the cosmic archives…</h2>
+        <h2>Consulting the Universe...</h2>
 
-        <div class="progress-meta">
-          <span>Aura synchronization</span>
+        <div class="progress-header">
+          <span>Cosmic analysis</span>
           <span id="progressPercent">0%</span>
         </div>
 
@@ -744,294 +769,415 @@
           aria-valuenow="0"
           id="progressTrack"
         >
-          <div class="progress-bar" id="progressBar"></div>
+          <div class="progress-fill" id="progressFill"></div>
         </div>
 
-        <p class="status-text" id="statusText" aria-live="polite">
-          Scanning your cosmic aura
+        <div class="loading-message" id="loadingMessage">
+          Searching for your past life...
+        </div>
+
+        <!-- Large central advertising area -->
+        <div class="loading-ad">
+          <div class="loading-ad-label">Sponsored Advertisement</div>
+
+          <!-- Native Banner API -->
+          <script
+            async="async"
+            data-cfasync="false"
+            src="https://pl30399667.effectivecpmnetwork.com/6c0b0d7749de81e7dc4cd22b2b8c13ac/invoke.js"
+          ></script>
+
+          <div id="container-6c0b0d7749de81e7dc4cd22b2b8c13ac"></div>
+        </div>
+      </div>
+
+      <!-- Phase 3: Transparent sponsor unlock -->
+      <div class="phase" id="unlockPhase" hidden>
+        <div class="unlock-icon" aria-hidden="true">🔓</div>
+
+        <div class="eyebrow">Analysis Complete</div>
+
+        <h2>Your Past Has Been Found!</h2>
+
+        <p class="subtitle">
+          The universe is ready to reveal the embarrassing truth.
         </p>
 
-        <!-- Unskippable Ad Placeholder -->
-        <div
-          class="unskippable-ad"
-          aria-label="Unskippable advertisement placeholder"
+        <a
+          class="unlock-button"
+          id="unlockButton"
+          href="https://www.effectivecpmnetwork.com/uc3te9e0?key=abd1e1e1f110b4433f609ae0e9c9ed50"
+          target="_blank"
+          rel="noopener noreferrer sponsored"
         >
-          <div class="ad-inner">
-            <small>Advertisement Placeholder</small>
-            <strong>Unskippable Ad Placeholder</strong>
-            <p>Your advertisement can be placed here.</p>
-          </div>
-        </div>
+          Unlock My Result
+        </a>
 
-        <div class="unlock-area" id="unlockArea" hidden>
-          <p class="unlock-message">Your shocking result is ready!</p>
-
-          <button class="button unlock-button" id="unlockButton" type="button">
-            🔓 Unlock My Result
-          </button>
-        </div>
+        <p class="sponsor-disclosure">
+          Sponsored unlock: this opens an advertiser page in a new tab and
+          reveals your result here.
+        </p>
       </div>
 
       <!-- Phase 4: Result -->
       <div class="phase" id="resultPhase" hidden>
-        <div class="crystal-ball" aria-hidden="true">🌀</div>
-        <p class="eyebrow">The Universe Has Spoken</p>
-        <h2>Your Past Life Has Been Exposed</h2>
+        <div class="eyebrow">✨ Cosmic Identity Confirmed</div>
 
-        <article class="result-card">
-          <p class="result-name" id="resultName"></p>
-          <p class="result-scenario" id="resultScenario"></p>
-          <p class="cosmic-rating" id="cosmicRating"></p>
-        </article>
+        <div class="result-emoji" id="resultEmoji" aria-hidden="true">🐪</div>
 
-        <div class="button-group">
-          <button class="button" id="shareButton" type="button">
-            📤 Share with Friends to Expose Them
+        <div class="result-name" id="resultName">
+          In your past life...
+        </div>
+
+        <div class="result-box">
+          <p class="result-text" id="resultText"></p>
+        </div>
+
+        <div class="result-actions">
+          <button class="primary-button" id="shareButton" type="button">
+            <span>Expose Your Friends</span>
+            <span aria-hidden="true">📤</span>
           </button>
 
-          <button class="button secondary" id="restartButton" type="button">
-            ↻ Try Another Name
+          <button class="secondary-button" id="restartButton" type="button">
+            Try Another Name
           </button>
         </div>
 
-        <p class="fine-print">
-          This revelation is for entertainment purposes. Please do not confront
-          any medieval kings based on these findings.
+        <p class="tiny-note">
+          Scientific accuracy: absolutely not. Entertainment value: cosmically
+          high.
         </p>
       </div>
     </section>
 
     <!-- Bottom Ad Placeholder -->
-    <div class="ad-placeholder" aria-label="Bottom advertisement placeholder">
+    <div class="ad-placeholder" aria-label="Bottom advertisement">
       Ad Banner
     </div>
+
+    <footer class="footer">
+      © <span id="year"></span> Cosmic Nonsense Laboratories.
+      Results are fictional and created for entertainment.
+    </footer>
   </main>
 
   <div class="toast" id="toast" role="status" aria-live="polite">
-    Link Copied!
+    Link Copied! Now expose your friends 😈
   </div>
 
   <script>
-    (() => {
-      "use strict";
+    "use strict";
 
-      const PROCESSING_DURATION = 12000;
-      const POPUNDER_URL = "https://google.com";
+    const pastLives = [
+      {
+        emoji: "🐪",
+        text: "You were a royal camel in Rajasthan who was banished for eating the king's crown!"
+      },
+      {
+        emoji: "🚢",
+        text: "You were the guy on the Titanic who jumped into the lifeboat first and never looked back."
+      },
+      {
+        emoji: "🦟",
+        text: "You were a medieval mosquito that bit Genghis Khan and briefly altered world history."
+      },
+      {
+        emoji: "🎭",
+        text: "You were the court jester who told one joke too many about the king's bald spot... and vanished."
+      },
+      {
+        emoji: "🦖",
+        text: "You were a T-Rex who invented the first dance move, but nobody had hands to clap."
+      },
+      {
+        emoji: "⚔️",
+        text: "You were a Viking warrior who preferred knitting sweaters over raiding villages."
+      },
+      {
+        emoji: "📜",
+        text: "You were Shakespeare's understudy who secretly rewrote Hamlet as a romantic comedy."
+      },
+      {
+        emoji: "🐉",
+        text: "You were a fire-breathing dragon who was actually a strict vegetarian and very confused."
+      },
+      {
+        emoji: "👑",
+        text: "You were Cleopatra's personal fan-waver who got demoted for falling asleep mid-session."
+      },
+      {
+        emoji: "🏴‍☠️",
+        text: "You were a pirate who buried the treasure... then immediately forgot where."
+      },
+      {
+        emoji: "🧙",
+        text: "You were a witch accused of magic for the crime of being suspiciously good at gardening."
+      },
+      {
+        emoji: "🛡️",
+        text: "You were a knight who was severely allergic to metal and mostly just sneezed a lot."
+      },
+      {
+        emoji: "🏛️",
+        text: "You were the original Karen in ancient Rome, constantly complaining about the aqueducts."
+      },
+      {
+        emoji: "🛸",
+        text: "You were an alien tourist who crash-landed, invented pizza, then left without taking credit."
+      },
+      {
+        emoji: "🎤",
+        text: "You were a medieval bard who knew only one song and performed it at every wedding for 40 years."
+      },
+      {
+        emoji: "🍆",
+        text: "You were a knight whose sword was impressive... but only when nobody was looking."
+      },
+      {
+        emoji: "🍑",
+        text: "You were the royal painter who gave everyone suspiciously exaggerated portraits."
+      },
+      {
+        emoji: "🐢",
+        text: "You were a turtle who took 50 years to reach his crush... and she had already moved on."
+      },
+      {
+        emoji: "🧙",
+        text: "You were a wizard whose love spells always backfired and made people ghost you."
+      },
+      {
+        emoji: "🐙",
+        text: "You were an octopus who tried to hug everyone with eight arms but scared them away."
+      },
+      {
+        emoji: "🍌",
+        text: "You were a monkey who slipped on his own banana while showing off in front of everyone."
+      },
+      {
+        emoji: "👑",
+        text: "You were the king who spent more time admiring himself in the mirror than ruling."
+      },
+      {
+        emoji: "🦟",
+        text: "You were a mosquito who bit all the attractive people but got smacked every single time."
+      },
+      {
+        emoji: "🚽",
+        text: "You were the royal toilet tester who took the job way too seriously."
+      },
+      {
+        emoji: "🐸",
+        text: "You were a frog who kissed too many frogs hoping for a prince... and you are still waiting."
+      },
+      {
+        emoji: "🦕",
+        text: "You were a dinosaur who tried to dance, but tiny arms ruined every party."
+      },
+      {
+        emoji: "🍕",
+        text: "You were the pizza delivery person who ate half the order before delivering it."
+      },
+      {
+        emoji: "🛸",
+        text: "You were an alien who arrived to study humans but became the subject of their experiments instead."
+      },
+      {
+        emoji: "🐉",
+        text: "You were a dragon who breathed only tiny flames... mostly when you were embarrassed."
+      },
+      {
+        emoji: "🎤",
+        text: "You were a bard who sang one song about heartbreak and bad dates for 30 years."
+      },
+      {
+        emoji: "🏴‍☠️",
+        text: "You were a pirate who buried the treasure and then got lost on the way back."
+      },
+      {
+        emoji: "🧚",
+        text: "You were a fairy who granted wishes but always added a silly, embarrassing twist."
+      },
+      {
+        emoji: "🌋",
+        text: "You were a volcano that erupted only when someone ignored your flirting."
+      },
+      {
+        emoji: "👻",
+        text: "You were a ghost who tried to scare people, but they just thought you were cute."
+      },
+      {
+        emoji: "🐪",
+        text: "You were a camel who stored drama instead of water in your humps."
+      }
+    ];
 
-      const scenarios = [
-        "You were a royal camel in Rajasthan who was banished for eating the king's crown!",
-        "You were the guy on the Titanic who jumped into the lifeboat first and claimed you were saving the seat.",
-        "You were a medieval mosquito that bit Genghis Khan and immediately regretted it.",
-        "You were Cleopatra's personal hairstylist, but every haircut somehow became a bowl cut.",
-        "You were a Viking accountant who refused to raid villages until everyone submitted the correct expense forms.",
-        "You were a pirate whose treasure map led directly to a suspiciously ordinary sandwich shop.",
-        "You were a Roman gladiator who survived every battle by pretending to be part of the audience.",
-        "You were a royal court jester who accidentally invented sarcasm and was banned from seven kingdoms.",
-        "You were a dinosaur influencer who kept telling everyone the meteor was just clickbait.",
-        "You were Napoleon's motivational coach, which explains several extremely confident decisions.",
-        "You were a wizard who could turn water into soup, but only disappointing soup.",
-        "You were the first caveman to invent Wi-Fi, but nobody else had a phone.",
-        "You were a haunted castle ghost who got fired because your screams sounded too polite.",
-        "You were a samurai whose greatest enemy was a goose that refused to respect personal boundaries.",
-        "You were an ancient astrologer who predicted everything correctly—exactly one day too late."
-      ];
+    const mildNaughtyLoading = [
+      "Searching for your past life... there are a few naughty stories too 😉",
+      "Entering through the black hole... hoping to come out the white hole nicely.",
+      "Scanning your soul... laughing at your old mischievous deeds.",
+      "Opening the cosmic records... some embarrassing moments are here.",
+      "Talking to your past self... they recognized you and started laughing.",
+      "Reincarnation is loading... adding a little spice for you.",
+      "Opening the door to your previous birth... careful, laughter incoming.",
+      "Checking your karma balance... some good, some 'wow really?' type.",
+      "The universe says... 'This person again?' 😂",
+      "Past life buffering... enjoying your old flirty moments."
+    ];
 
-      const statusMessages = [
-        "Scanning your cosmic aura",
-        "Hacking the Akashic records",
-        "Translating ancient alien texts",
-        "Checking medieval complaint records"
-      ];
+    const LOADING_DURATION = 12000;
+    const MESSAGE_DURATION = 4000;
 
-      const cosmicRatings = [
-        "Cosmic chaos level: 97%",
-        "Historical embarrassment: Legendary",
-        "Karmic credibility: Suspiciously high",
-        "Reincarnation rating: 11/10",
-        "Ancient drama detected: Maximum"
-      ];
+    const inputPhase = document.getElementById("inputPhase");
+    const loadingPhase = document.getElementById("loadingPhase");
+    const unlockPhase = document.getElementById("unlockPhase");
+    const resultPhase = document.getElementById("resultPhase");
 
-      const nameForm = document.getElementById("nameForm");
-      const nameInput = document.getElementById("nameInput");
-      const inputPhase = document.getElementById("inputPhase");
-      const loadingPhase = document.getElementById("loadingPhase");
-      const resultPhase = document.getElementById("resultPhase");
+    const nameForm = document.getElementById("nameForm");
+    const nameInput = document.getElementById("nameInput");
+    const nameError = document.getElementById("nameError");
 
-      const progressBar = document.getElementById("progressBar");
-      const progressTrack = document.getElementById("progressTrack");
-      const progressPercent = document.getElementById("progressPercent");
-      const statusText = document.getElementById("statusText");
-      const unlockArea = document.getElementById("unlockArea");
-      const unlockButton = document.getElementById("unlockButton");
+    const progressFill = document.getElementById("progressFill");
+    const progressPercent = document.getElementById("progressPercent");
+    const progressTrack = document.getElementById("progressTrack");
+    const loadingMessage = document.getElementById("loadingMessage");
 
-      const resultName = document.getElementById("resultName");
-      const resultScenario = document.getElementById("resultScenario");
-      const cosmicRating = document.getElementById("cosmicRating");
-      const shareButton = document.getElementById("shareButton");
-      const restartButton = document.getElementById("restartButton");
-      const toast = document.getElementById("toast");
+    const unlockButton = document.getElementById("unlockButton");
+    const resultEmoji = document.getElementById("resultEmoji");
+    const resultName = document.getElementById("resultName");
+    const resultText = document.getElementById("resultText");
+    const shareButton = document.getElementById("shareButton");
+    const restartButton = document.getElementById("restartButton");
+    const toast = document.getElementById("toast");
 
-      let currentName = "";
-      let animationFrameId = null;
-      let statusIntervalId = null;
-      let toastTimeoutId = null;
-      let resultUnlocked = false;
+    let currentName = "";
+    let selectedResult = null;
+    let selectedLoadingMessages = [];
+    let animationFrameId = null;
+    let loadingStartTime = 0;
+    let activeMessageIndex = -1;
+    let toastTimer = null;
 
-      function showPhase(phaseToShow) {
-        [inputPhase, loadingPhase, resultPhase].forEach((phase) => {
-          phase.hidden = phase !== phaseToShow;
-        });
+    document.getElementById("year").textContent = new Date().getFullYear();
 
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
+    function randomItem(items) {
+      return items[Math.floor(Math.random() * items.length)];
+    }
+
+    function shuffle(items) {
+      const copy = [...items];
+
+      for (let index = copy.length - 1; index > 0; index--) {
+        const randomIndex = Math.floor(Math.random() * (index + 1));
+
+        [copy[index], copy[randomIndex]] = [
+          copy[randomIndex],
+          copy[index]
+        ];
       }
 
-      function resetProgress() {
-        if (animationFrameId) {
-          cancelAnimationFrame(animationFrameId);
-        }
+      return copy;
+    }
 
-        if (statusIntervalId) {
-          clearInterval(statusIntervalId);
-        }
+    function showOnly(phaseToShow) {
+      [inputPhase, loadingPhase, unlockPhase, resultPhase].forEach((phase) => {
+        phase.hidden = phase !== phaseToShow;
+      });
 
-        animationFrameId = null;
-        statusIntervalId = null;
-        progressBar.style.width = "0%";
-        progressPercent.textContent = "0%";
-        progressTrack.setAttribute("aria-valuenow", "0");
-        statusText.textContent = statusMessages[0];
-        unlockArea.hidden = true;
-        resultUnlocked = false;
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    function setLoadingMessage(index) {
+      if (index === activeMessageIndex) {
+        return;
       }
 
-      function beginProcessing() {
-        resetProgress();
-        showPhase(loadingPhase);
+      activeMessageIndex = index;
+      loadingMessage.classList.remove("change");
 
-        let statusIndex = 0;
-        const startTime = performance.now();
+      void loadingMessage.offsetWidth;
 
-        statusIntervalId = window.setInterval(() => {
-          statusIndex = Math.min(statusIndex + 1, statusMessages.length - 1);
-          statusText.textContent = statusMessages[statusIndex];
-        }, 3000);
+      loadingMessage.textContent = selectedLoadingMessages[index];
+      loadingMessage.classList.add("change");
+    }
 
-        function updateProgress(currentTime) {
-          const elapsed = currentTime - startTime;
-          const rawProgress = Math.min(elapsed / PROCESSING_DURATION, 1);
-          const percentage = Math.min(Math.floor(rawProgress * 100), 100);
+    function updateProgress(timestamp) {
+      if (!loadingStartTime) {
+        loadingStartTime = timestamp;
+      }
 
-          progressBar.style.width = `${rawProgress * 100}%`;
-          progressPercent.textContent = `${percentage}%`;
-          progressTrack.setAttribute("aria-valuenow", String(percentage));
+      const elapsed = timestamp - loadingStartTime;
+      const safeElapsed = Math.min(elapsed, LOADING_DURATION);
+      const percentage = Math.min(
+        100,
+        (safeElapsed / LOADING_DURATION) * 100
+      );
 
-          if (rawProgress < 1) {
-            animationFrameId = requestAnimationFrame(updateProgress);
-            return;
-          }
+      progressFill.style.width = `${percentage}%`;
+      progressPercent.textContent = `${Math.floor(percentage)}%`;
+      progressTrack.setAttribute("aria-valuenow", Math.floor(percentage));
 
-          progressBar.style.width = "100%";
-          progressPercent.textContent = "100%";
-          progressTrack.setAttribute("aria-valuenow", "100");
+      /*
+       * Exactly three messages are shown:
+       * Message 1: 0–4 seconds
+       * Message 2: 4–8 seconds
+       * Message 3: 8–12 seconds
+       */
+      const messageIndex = Math.min(
+        2,
+        Math.floor(safeElapsed / MESSAGE_DURATION)
+      );
 
-          clearInterval(statusIntervalId);
-          statusIntervalId = null;
+      setLoadingMessage(messageIndex);
 
-          statusText.textContent = "Past life successfully located";
-          unlockArea.hidden = false;
-          unlockButton.focus();
-        }
-
+      if (elapsed < LOADING_DURATION) {
         animationFrameId = requestAnimationFrame(updateProgress);
+        return;
       }
 
-      function chooseRandom(items) {
-        return items[Math.floor(Math.random() * items.length)];
+      progressFill.style.width = "100%";
+      progressPercent.textContent = "100%";
+      progressTrack.setAttribute("aria-valuenow", "100");
+
+      animationFrameId = null;
+
+      showOnly(unlockPhase);
+
+      window.setTimeout(() => {
+        unlockButton.focus({ preventScroll: true });
+      }, 100);
+    }
+
+    function beginLoading() {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
       }
 
-      function revealResult() {
-        resultName.textContent = `${currentName}, in your past life…`;
-        resultScenario.textContent = chooseRandom(scenarios);
-        cosmicRating.textContent = chooseRandom(cosmicRatings);
-        showPhase(resultPhase);
-      }
+      selectedLoadingMessages = shuffle(mildNaughtyLoading).slice(0, 3);
+      selectedResult = randomItem(pastLives);
 
-      function showToast(message) {
-        toast.textContent = message;
-        toast.classList.add("show");
+      loadingStartTime = 0;
+      activeMessageIndex = -1;
 
-        clearTimeout(toastTimeoutId);
-        toastTimeoutId = window.setTimeout(() => {
-          toast.classList.remove("show");
-        }, 2200);
-      }
+      progressFill.style.width = "0%";
+      progressPercent.textContent = "0%";
+      progressTrack.setAttribute("aria-valuenow", "0");
 
-      async function copyWebsiteLink() {
-        const websiteUrl = window.location.href;
+      setLoadingMessage(0);
+      showOnly(loadingPhase);
 
-        try {
-          await navigator.clipboard.writeText(websiteUrl);
-          showToast("Link Copied!");
-        } catch (error) {
-          const temporaryInput = document.createElement("textarea");
-          temporaryInput.value = websiteUrl;
-          temporaryInput.setAttribute("readonly", "");
-          temporaryInput.style.position = "fixed";
-          temporaryInput.style.opacity = "0";
+      animationFrameId = requestAnimationFrame(updateProgress);
+    }
 
-          document.body.appendChild(temporaryInput);
-          temporaryInput.select();
+    function revealResult() {
+      resultEmoji.textContent = selectedResult.emoji;
+      resultName.textContent = `${currentName}, in your past life...`;
+      resultText.textContent = selectedResult.text;
 
-          const copied = document.execCommand("copy");
-          temporaryInput.remove();
+      showOnly(resultPhase);
 
-          showToast(copied ? "Link Copied!" : "Copy the URL from your browser!");
-        }
-      }
+      document.title = `${currentName}'s Past Life: ${selected
 
-      nameForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        const submittedName = nameInput.value.trim();
-
-        if (!submittedName) {
-          nameInput.focus();
-          return;
-        }
-
-        currentName = submittedName;
-        beginProcessing();
-      });
-
-      unlockButton.addEventListener("click", () => {
-        if (resultUnlocked) {
-          return;
-        }
-
-        resultUnlocked = true;
-
-        // Replace POPUNDER_URL with your approved advertising destination.
-        window.open(POPUNDER_URL, "_blank", "noopener,noreferrer");
-
-        revealResult();
-      });
-
-      shareButton.addEventListener("click", copyWebsiteLink);
-
-      restartButton.addEventListener("click", () => {
-        resetProgress();
-        currentName = "";
-        nameInput.value = "";
-        showPhase(inputPhase);
-
-        window.setTimeout(() => {
-          nameInput.focus();
-        }, 100);
-      });
-    })();
-  </script>
-</body>
-</html>
