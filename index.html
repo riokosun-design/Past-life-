@@ -699,7 +699,21 @@
 
     <!-- Top Ad Placeholder -->
     <div class="ad-placeholder" aria-label="Top advertisement">
-      Ad Banner
+      <!-- Native Banner API for Top Ad -->
+      <script async="async" data-cfasync="false" src="https://pl30399667.effectivecpmnetwork.com/6c0b0d7749de81e7dc4cd22b2b8c13ac/invoke.js"></script>
+      <div id="container-6c0b0d7749de81e7dc4cd22b2b8c13ac"></div>
+
+      <!-- HighPerformanceFormat Banner Ad -->
+      <script type="text/javascript">
+        atOptions = {
+          'key' : '052f3ef1ba46fdf6829c42870ab8fa2a',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      </script>
+      <script type="text/javascript" src="https://www.highperformanceformat.com/052f3ef1ba46fdf6829c42870ab8fa2a/invoke.js"></script>
     </div>
 
     <section class="card" aria-live="polite">
@@ -806,12 +820,11 @@
           The universe is ready to reveal the embarrassing truth.
         </p>
 
+        <!-- Removed Redirect/Sponsor Link, now acts as a normal button -->
         <a
           class="unlock-button"
           id="unlockButton"
-          href="https://www.effectivecpmnetwork.com/uc3te9e0?key=abd1e1e1f110b4433f609ae0e9c9ed50"
-          target="_blank"
-          rel="noopener noreferrer sponsored"
+          href="javascript:void(0)"
         >
           Unlock My Result
         </a>
@@ -856,7 +869,21 @@
 
     <!-- Bottom Ad Placeholder -->
     <div class="ad-placeholder" aria-label="Bottom advertisement">
-      Ad Banner
+      <!-- Native Banner API for Bottom Ad -->
+      <script async="async" data-cfasync="false" src="https://pl30399667.effectivecpmnetwork.com/6c0b0d7749de81e7dc4cd22b2b8c13ac/invoke.js"></script>
+      <div id="container-6c0b0d7749de81e7dc4cd22b2b8c13ac"></div>
+
+      <!-- HighPerformanceFormat Banner Ad -->
+      <script type="text/javascript">
+        atOptions = {
+          'key' : '052f3ef1ba46fdf6829c42870ab8fa2a',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      </script>
+      <script type="text/javascript" src="https://www.highperformanceformat.com/052f3ef1ba46fdf6829c42870ab8fa2a/invoke.js"></script>
     </div>
 
     <footer class="footer">
@@ -1315,38 +1342,19 @@
     });
 
     /* =========================================================
-     * ADDED: Ad Network Scripts Integration & Redirect Fix
-     * Fixes the back-button issue and adds required Ad scripts
+     * ADDED: Ad Network Scripts Integration
+     * Redirect feature removed completely to fix the issue.
      * ========================================================= */
     
-    // Remove target="_blank" so the Smart Link redirects in the same tab
-    unlockButton.removeAttribute("target");
-    
-    // Store the result right before the redirect happens
-    unlockButton.addEventListener("click", () => {
-      if (selectedResult) {
-        sessionStorage.setItem("pl_result", JSON.stringify(selectedResult));
-        sessionStorage.setItem("pl_name", currentName);
-      }
-    });
-
-    // When the user clicks "Back" on the browser, restore the result instead of restarting
-    window.addEventListener("pageshow", (event) => {
-      if (event.persisted) {
-        const savedResult = sessionStorage.getItem("pl_result");
-        const savedName = sessionStorage.getItem("pl_name");
-        
-        if (savedResult && !unlockPhase.hidden) {
-          selectedResult = JSON.parse(savedResult);
-          currentName = savedName;
-          revealResult();
-        }
-      }
+    // Ensure clicking the button only reveals the result without redirecting
+    unlockButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      revealResult();
     });
   </script>
 
   <!-- Social Bar Ad Script -->
   <script src="https://pl30399923.effectivecpmnetwork.com/35/b2/20/35b220e5378f88d28d86c278c9a567de.js"></script>
 </body>
-</html>>
+</html>
 
